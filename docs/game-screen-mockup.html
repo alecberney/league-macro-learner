@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Écran de jeu — maquette</title>
+<style>
+  :root { --bg:#0d1117; --panel:#161b22; --line:#30363d; --txt:#e6edf3; --mut:#8b949e; --blue:#3b82f6; --red:#ef4444; --gold:#eab308; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--txt); font:14px/1.4 system-ui,-apple-system,sans-serif; }
+  .wrap { max-width:1180px; margin:0 auto; padding:12px 16px 40px; }
+  h1 { font-size:15px; margin:0 0 10px; color:var(--mut); font-weight:500; }
+  .team { background:var(--panel); border:1px solid var(--line); border-radius:10px; padding:10px 12px; }
+  .team.ally { border-top:3px solid var(--blue); }
+  .team.enemy { border-bottom:3px solid var(--red); }
+  .teamhead { display:flex; flex-wrap:wrap; gap:16px; align-items:center; margin-bottom:8px; font-size:13px; }
+  .teamhead b { font-size:14px; }
+  .kpi { color:var(--mut); } .kpi strong { color:var(--txt); }
+  .pos { color:#4ade80 } .neg { color:#f87171 }
+  .cards { display:grid; grid-template-columns:repeat(5,1fr); gap:8px; }
+  .card { background:#0d1117; border:1px solid var(--line); border-radius:8px; padding:6px 8px; font-size:12px; }
+  .card .top { display:flex; justify-content:space-between; font-weight:600; }
+  .bar { height:6px; background:#21262d; border-radius:3px; margin:4px 0 2px; overflow:hidden; }
+  .bar i { display:block; height:100%; }
+  .xp i { background:#a78bfa } .lead i { background:#4ade80 }
+  .muted { color:var(--mut); }
+  .mid { display:grid; grid-template-columns:220px 1fr 220px; gap:12px; margin:12px 0; }
+  .mapbox { background:#2b3428; border-radius:10px; padding:6px; }
+  svg { width:100%; display:block; }
+  .node { cursor:pointer; }
+  .node:hover { stroke:#fff; stroke-width:3; }
+  .pawn { cursor:pointer; }
+  .pawn.sel circle.body { stroke:#fde047; stroke-width:3; }
+  .side { background:var(--panel); border:1px solid var(--line); border-radius:10px; padding:10px 12px; font-size:13px; display:flex; flex-direction:column; gap:10px; }
+  .side h3 { margin:0; font-size:13px; color:var(--mut); font-weight:600; text-transform:uppercase; letter-spacing:.04em; }
+  .orders li { margin:2px 0; } .orders { padding-left:16px; margin:0; }
+  .opt label { display:block; margin:3px 0; }
+  .seg { display:flex; gap:4px; } .seg button { flex:1; }
+  button { background:#21262d; color:var(--txt); border:1px solid var(--line); border-radius:6px; padding:6px 8px; font:inherit; cursor:pointer; }
+  button.on { background:#1f6feb; border-color:#1f6feb; }
+  .go { background:#238636; border-color:#238636; font-weight:600; padding:9px; }
+  .note { font-size:12px; color:var(--mut); }
+.ri{width:16px;height:16px;vertical-align:-3px;margin-right:3px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Maquette écran de jeu : clique un pion bleu : les positions atteignables ce round s’allument. Clique-en une pour donner l’ordre. Sans ordre, le pion reste où il est.</h1>
+
+  <!-- ÉQUIPE ALLIÉE -->
+  <div class="team ally">
+    <div class="teamhead">
+      <b style="color:var(--blue)">Ton équipe (bleu)</b>
+      <span class="kpi">Avance équipe <strong class="pos">+1 450 or</strong></span>
+      <span class="kpi">XP <strong class="pos">+320</strong></span>
+      <span class="kpi">Dragons <strong>1</strong></span>
+      <span class="kpi">Larves <strong>0</strong></span>
+      <span class="kpi">Tours prises <strong>0</strong></span>
+      <span class="kpi">Wards <strong>1 / 3</strong></span>
+    </div>
+    <div class="cards">
+      <div class="card"><div class="top"><span><img class="ri" src="https://raw.communitydragon.org/latest/plugins/rcp-fe-lol-clash/global/default/assets/images/position-selector/positions/icon-position-top.png">Darius</span><span class="muted">niv 5</span></div>
+        <div class="bar xp"><i style="width:60%"></i></div><div class="bar lead"><i style="width:70%"></i></div>
+        <span class="muted">Or non dépensé 820</span></div>
+      <div class="card"><div class="top"><span><img class="ri" src="https://raw.communitydragon.org/latest/plugins/rcp-fe-lol-clash/global/default/assets/images/position-selector/positions/icon-position-jungle.png">Lee Sin</span><span class="muted">niv 4</span></div>
+        <div class="bar xp"><i style="width:40%"></i></div><div class="bar lead"><i style="width:55%"></i></div>
+        <span class="muted">Or non dépensé 410</span></div>
+      <div class="card"><div class="top"><span><img class="ri" src="https://raw.communitydragon.org/latest/plugins/rcp-fe-lol-clash/global/default/assets/images/position-selector/positions/icon-position-middle.png">Ahri</span><span class="muted">niv 5</span></div>
+        <div class="bar xp"><i style="width:65%"></i></div><div class="bar lead"><i style="width:50%"></i></div>
+        <span class="muted">Or non dépensé 1 120</span></div>
+      <div class="card"><div class="top"><span><img class="ri" src="https://raw.communitydragon.org/latest/plugins/rcp-fe-lol-clash/global/default/assets/images/position-selector/positions/icon-position-bottom.png">Jinx</span><span class="muted">niv 4</span></div>
+        <div class="bar xp"><i style="width:45%"></i></div><div class="bar lead"><i style="width:45%"></i></div>
+        <span class="muted">Or non dépensé 640</span></div>
+      <div class="card"><div class="top"><span><img class="ri" src="https://raw.communitydragon.org/latest/plugins/rcp-fe-lol-clash/global/default/assets/images/position-selector/positions/icon-position-utility.png">Thresh</span><span class="muted">niv 3</span></div>
+        <div class="bar xp"><i style="width:30%"></i></div><div class="bar lead"><i style="width:50%"></i></div>
+        <span class="muted">Or non dépensé 210</span></div>
+    </div>
+  </div>
+
+  <div class="mid">
+    <div class="side" id="panel"><h3>Actions</h3><div class="note">Clique un de tes pions sur la carte.</div></div>
+    <div class="mapbox">
+      <svg id="map" viewBox="0 0 600 600">
+        <defs>
+          <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#fde047"/></marker>
+          <filter id="floor"><feColorMatrix type="matrix" values=".42 0 0 0 .02  0 .5 0 0 .03  0 0 .45 0 .02  0 0 0 1 0"/></filter>
+          <filter id="walls" x="-5%" y="-5%" width="110%" height="110%">
+            <feColorMatrix in="SourceGraphic" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -1 1" result="m"/>
+            <feFlood flood-color="#5f6d58" result="c"/>
+            <feComposite in="c" in2="m" operator="in" result="w"/>
+            <feGaussianBlur in="m" stdDeviation="1.6" result="b"/>
+            <feSpecularLighting in="b" surfaceScale="4" specularConstant=".55" specularExponent="18" lighting-color="#f5f5dc" result="spec"><feDistantLight azimuth="225" elevation="40"/></feSpecularLighting>
+            <feComposite in="spec" in2="m" operator="in" result="hl"/>
+            <feOffset in="m" dx="2" dy="3" result="o"/><feGaussianBlur in="o" stdDeviation="2" result="ob"/>
+            <feFlood flood-color="#000" flood-opacity=".75"/><feComposite in2="ob" operator="in" result="sh"/>
+            <feMerge><feMergeNode in="sh"/><feMergeNode in="w"/><feMergeNode in="hl"/></feMerge>
+          </filter>
+          <radialGradient id="glow-b"><stop offset="0" stop-color="#60a5fa" stop-opacity=".8"/><stop offset="1" stop-color="#60a5fa" stop-opacity="0"/></radialGradient>
+          <radialGradient id="glow-r"><stop offset="0" stop-color="#f87171" stop-opacity=".8"/><stop offset="1" stop-color="#f87171" stop-opacity="0"/></radialGradient>
+          <linearGradient id="crys-b" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#dbeafe"/><stop offset=".5" stop-color="#3b82f6"/><stop offset="1" stop-color="#1e3a8a"/></linearGradient>
+          <linearGradient id="crys-r" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fee2e2"/><stop offset=".5" stop-color="#ef4444"/><stop offset="1" stop-color="#7f1d1d"/></linearGradient>
+        </defs>
+        <rect width="600" height="600" fill="#2b3428"/>
+        <image href="https://raw.communitydragon.org/latest/game/assets/maps/info/map11/2dlevelminimap_base_baron1.png" width="600" height="600" filter="url(#floor)"/>
+        <image href="https://raw.communitydragon.org/latest/game/assets/maps/info/map11/2dlevelminimap_base_baron1.png" width="600" height="600" filter="url(#walls)"/>
+        <!-- brouillard côté rouge -->
+        <polygon points="0,0 600,0 600,600" fill="#000" opacity=".22"/>
+        <g transform="translate(71 529)">
+          <circle r="26" fill="url(#glow-b)"/>
+          <polygon points="0,-14 12,-7 12,7 0,14 -12,7 -12,-7" fill="#1f2937" stroke="#94a3b8" stroke-width="1.5"/>
+          <polygon points="0,-20 8,-4 0,9 -8,-4" fill="url(#crys-b)" stroke="#e2e8f0" stroke-width=".8"/>
+          <polygon points="0,-20 3,-6 0,2 -3,-6" fill="#fff" opacity=".45"/>
+        </g>
+        <g transform="translate(529 71)">
+          <circle r="26" fill="url(#glow-r)"/>
+          <polygon points="0,-14 12,-7 12,7 0,14 -12,7 -12,-7" fill="#1f2937" stroke="#94a3b8" stroke-width="1.5"/>
+          <polygon points="0,-20 8,-4 0,9 -8,-4" fill="url(#crys-r)" stroke="#e2e8f0" stroke-width=".8"/>
+          <polygon points="0,-20 3,-6 0,2 -3,-6" fill="#fff" opacity=".45"/>
+        </g>
+        <g id="nodes"></g>
+        <g id="arrows"></g>
+        <g id="pawns"></g>
+      </svg>
+    </div>
+
+    <div class="side">
+      <div>
+        <h3>Résumé du round</h3>
+        <div><strong>Phase 2 · Round 9</strong> · 4:10 → 4:30</div>
+        <div class="note">Prochain objectif : Dragon à 5:00 (dans 3 rounds)</div>
+      </div>
+      <div>
+        <h3>Ordres du round</h3>
+        <ul class="orders" id="orders"></ul>
+      </div>
+      <button class="go">Valider le round</button>
+      <div class="note">Mode didactique : les explications s'affichent ici après la résolution du round.</div>
+    </div>
+  </div>
+
+  <!-- ÉQUIPE ADVERSE -->
+  <div class="team enemy">
+    <div class="cards">
+      <div class="card"><div class="top"><span><img class="ri" src="https://raw.communitydragon.org/latest/plugins/rcp-fe-lol-clash/global/default/assets/images/position-selector/positions/icon-position-top.png">Kayle</span><span class="muted">niv 4</span></div>
+        <div class="bar xp"><i style="width:45%"></i></div><div class="muted">Vue : lane top (ce round)</div></div>
+      <div class="card"><div class="top"><span><img class="ri" src="https://raw.communitydragon.org/latest/plugins/rcp-fe-lol-clash/global/default/assets/images/position-selector/positions/icon-position-jungle.png">Viego</span><span class="muted">niv ?</span></div>
+        <div class="bar xp"><i style="width:0%"></i></div><div class="muted">Dernière vue : Raptors (round 6)</div></div>
+      <div class="card"><div class="top"><span><img class="ri" src="https://raw.communitydragon.org/latest/plugins/rcp-fe-lol-clash/global/default/assets/images/position-selector/positions/icon-position-middle.png">Zed</span><span class="muted">niv 5</span></div>
+        <div class="bar xp"><i style="width:55%"></i></div><div class="muted">Vue : lane mid (ce round)</div></div>
+      <div class="card"><div class="top"><span><img class="ri" src="https://raw.communitydragon.org/latest/plugins/rcp-fe-lol-clash/global/default/assets/images/position-selector/positions/icon-position-bottom.png">Caitlyn</span><span class="muted">niv 4</span></div>
+        <div class="bar xp"><i style="width:40%"></i></div><div class="muted">Vue : lane bot (ce round)</div></div>
+      <div class="card"><div class="top"><span><img class="ri" src="https://raw.communitydragon.org/latest/plugins/rcp-fe-lol-clash/global/default/assets/images/position-selector/positions/icon-position-utility.png">Lux</span><span class="muted">niv 3</span></div>
+        <div class="bar xp"><i style="width:30%"></i></div><div class="muted">Vue : lane bot (ce round)</div></div>
+    </div>
+    <div class="teamhead" style="margin:8px 0 0">
+      <b style="color:var(--red)">Équipe adverse (rouge)</b>
+      <span class="kpi">Dragons <strong>0</strong></span>
+      <span class="kpi">Larves <strong>0</strong></span>
+      <span class="kpi">Tours prises <strong>0</strong></span>
+      <span class="kpi muted">Or et avance adverses : estimés d'après ce qui a été vu</span>
+    </div>
+  </div>
+</div>
+
+<div id="tip" style="position:fixed;pointer-events:none;background:#000c;color:#fff;font-size:12px;padding:4px 8px;border-radius:5px;display:none;z-index:9"></div>
+<style>
+  .node.off { opacity:.25; cursor:not-allowed; }
+  .node.reach { stroke:#fde047; stroke-width:2.5; }
+</style>
+<script>
+const ICON='https://raw.communitydragon.org/latest/plugins/rcp-fe-lol-clash/global/default/assets/images/position-selector/positions/icon-position-';
+const N = { // positions de la carte A, depuis les coordonnées réelles de la Faille
+  'Top T3 bleu':[47,427],'Top T2 bleu':[61,330],'Top T1 bleu':[40,179],'Lane top':[78,78],'Top T1 rouge':[174,40],'Top T2 rouge':[320,59],'Top T3 rouge':[423,49],'Mid T3 bleu':[147,451],'Mid T2 bleu':[204,406],'Mid T1 bleu':[236,342],'Lane mid':[300,300],'Mid T1 rouge':[361,257],'Mid T2 rouge':[394,192],'Mid T3 rouge':[449,148],'Bot T3 bleu':[173,549],'Bot T2 bleu':[279,540],'Bot T1 bleu':[424,558],'Lane bot':[522,522],'Bot T1 rouge':[559,418],'Bot T2 rouge':[538,268],'Bot T3 rouge':[550,173],'Blue (bleu)':[156,281],'Gromp (bleu)':[84,260],'Loups (bleu)':[153,338],'Raptors (bleu)':[280,381],'Red (bleu)':[313,438],'Krugs (bleu)':[339,491],'Blue (rouge)':[441,318],'Gromp (rouge)':[513,340],'Loups (rouge)':[444,262],'Raptors (rouge)':[317,219],'Red (rouge)':[283,165],'Krugs (rouge)':[255,110],'Fosse Nashor':[200,180],'Fosse Dragon':[398,422],'Carapateur haut':[178,213],'Carapateur bas':[424,391]
+};
+// Liens côté bleu + neutres ; le côté rouge est obtenu par symétrie centrale de la carte.
+const E0 = [
+  ['Top T3 bleu','Top T2 bleu'],['Top T2 bleu','Top T1 bleu'],['Top T1 bleu','Lane top'],['Lane top','Top T1 rouge'],['Top T1 rouge','Top T2 rouge'],['Top T2 rouge','Top T3 rouge'],
+  ['Mid T3 bleu','Mid T2 bleu'],['Mid T2 bleu','Mid T1 bleu'],['Mid T1 bleu','Lane mid'],
+  ['Mid T1 bleu','Top T1 bleu'],['Mid T1 bleu','Bot T1 bleu'],
+  ['Lane mid','Carapateur haut'],['Mid T1 bleu','Carapateur haut'],['Mid T1 bleu','Carapateur bas'],['Lane top','Fosse Nashor'],['Carapateur haut','Fosse Nashor'],
+  ['Gromp (bleu)','Blue (bleu)'],['Blue (bleu)','Loups (bleu)'],['Gromp (bleu)','Top T2 bleu'],['Blue (bleu)','Top T1 bleu'],
+  ['Loups (bleu)','Mid T2 bleu'],['Loups (bleu)','Mid T1 bleu'],['Blue (bleu)','Carapateur haut'],
+  ['Raptors (bleu)','Mid T1 bleu'],['Raptors (bleu)','Red (bleu)'],['Red (bleu)','Krugs (bleu)'],['Krugs (bleu)','Bot T2 bleu'],
+  ['Red (bleu)','Bot T1 bleu'],['Raptors (bleu)','Carapateur bas'],['Red (bleu)','Fosse Dragon']
+];
+const SWAP = {bleu:'rouge',rouge:'bleu',Top:'Bot',Bot:'Top',top:'bot',bot:'top',haut:'bas',bas:'haut',Nashor:'Dragon',Dragon:'Nashor'};
+const mirror = k => k.startsWith('Mid')||k.includes('(') ? k.replace(/bleu|rouge/g,w=>SWAP[w]) : k.replace(/bleu|rouge|Top|Bot|top|bot|haut|bas|Nashor|Dragon/g,w=>SWAP[w]);
+const ADJ = {}; for (const k in N) ADJ[k]=new Set();
+for (const [a,b] of E0) for (const [u,v] of [[a,b],[mirror(a),mirror(b)]]) { ADJ[u].add(v); ADJ[v].add(u); }
+function reach(from, moves){ const d={[from]:0}, q=[from];
+  while(q.length){ const u=q.shift(); if(d[u]===moves) continue; for(const v of ADJ[u]) if(!(v in d)){ d[v]=d[u]+1; q.push(v);} }
+  return d; }
+
+const color = k => k.startsWith('Fosse Nashor') ? '#a855f7' : k.startsWith('Fosse Dragon') ? '#f97316' : k.startsWith('Carapateur') ? '#38bdf8'
+  : /\((bleu|rouge)\)/.test(k) ? '#22c55e' : k.includes('bleu') ? '#3b82f6' : k.includes('rouge') ? '#ef4444' : '#9ca3af';
+const NS='http://www.w3.org/2000/svg', el=(t,a)=>{const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);return e;};
+const tip=document.getElementById('tip');
+const ally=[
+  {n:'Darius',r:'top',p:'Top T1 bleu'},{n:'Lee Sin',r:'jungle',p:'Red (bleu)'},{n:'Ahri',r:'middle',p:'Mid T1 bleu'},
+  {n:'Jinx',r:'bottom',p:'Bot T1 bleu',dx:-16},{n:'Thresh',r:'utility',p:'Bot T1 bleu',dx:16}];
+const enemy=[
+  {n:'Kayle',r:'top',p:'Top T1 rouge'},{n:'Zed',r:'middle',p:'Mid T1 rouge'},
+  {n:'Caitlyn',r:'bottom',p:'Bot T1 rouge',dx:-16},{n:'Lux',r:'utility',p:'Bot T1 rouge',dx:16}];
+const movesOf = c => c.r==='jungle' ? 2 : 1;
+let sel=null; const orders={};
+
+function drawNodes(){
+  const g=document.getElementById('nodes'); g.innerHTML='';
+  const R = sel===null ? null : reach(ally[sel].p, movesOf(ally[sel]));
+  for (const [k,[x,y]] of Object.entries(N)) {
+    const ok = !R || k in R;
+    const c=el('circle',{cx:x,cy:y,r:k.startsWith('Fosse')?12:8,fill:color(k),stroke:'#111','stroke-width':1.5,
+      class:'node'+(R?(ok?' reach':' off'):'')});
+    const obj=/Fosse|Carapateur/.test(k)?' · objectif':/\(/.test(k)?' · camp':'';
+    const label = k+obj+(R? (ok ? (R[k]===0?' · rester ici':` · ${R[k]} mouvement${R[k]>1?'s':''}`) : ' · hors de portée ce round') : '');
+    c.onmousemove=e=>{tip.style.display='block'; tip.textContent=label; tip.style.left=(e.clientX+12)+'px'; tip.style.top=(e.clientY+12)+'px';};
+    c.onmouseleave=()=>tip.style.display='none';
+    c.onclick=e=>{ e.stopPropagation(); if(R && ok) order(k); };
+    g.appendChild(c);
+  }
+}
+function pawn(c,team,i){
+  const [x,y]=N[c.p], X=x+(c.dx||0), Y=y+(c.dy||0);
+  const g=el('g',{class:'pawn'+(sel===i&&team==='b'?' sel':'')});
+  g.appendChild(el('circle',{class:'body',cx:X,cy:Y,r:13,fill:team==='b'?'#1d4ed8':'#b91c1c',stroke:'#fff','stroke-width':1.5}));
+  g.appendChild(el('image',{href:ICON+c.r+'.png',x:X-9,y:Y-33,width:18,height:18}));
+  const ini=el('text',{x:X,y:Y+4,'text-anchor':'middle','font-size':10,'font-weight':700,fill:'#fff'}); ini.textContent=c.n.slice(0,2).toUpperCase(); g.appendChild(ini);
+  const nm=el('text',{x:X,y:Y+25,'text-anchor':'middle','font-size':9,fill:'#e5e7eb','font-weight':600}); nm.textContent=c.n; g.appendChild(nm);
+  if(team==='b') g.onclick=e=>{e.stopPropagation(); sel=(sel===i?null:i); draw();};
+  return g;
+}
+function draw(){
+  drawNodes();
+  const P=document.getElementById('pawns'); P.innerHTML='';
+  enemy.forEach((c,i)=>P.appendChild(pawn(c,'r',i)));
+  ally.forEach((c,i)=>P.appendChild(pawn(c,'b',i)));
+  const A=document.getElementById('arrows'); A.innerHTML='';
+  for (const [i,o] of Object.entries(orders)) { if(o.recall||!o.to||o.to===ally[i].p) continue;
+    const [x1,y1]=N[ally[i].p], [x2,y2]=N[o.to];
+    A.appendChild(el('line',{x1,y1,x2,y2,stroke:'#fde047','stroke-width':3,'stroke-dasharray':'6 4','marker-end':'url(#arr)'}));
+  }
+  const ul=document.getElementById('orders'); ul.innerHTML='';
+  ally.forEach((c,i)=>{const o=orders[i]||{}; const li=document.createElement('li'); const parts=[];
+    if(o.recall) parts.push('recall');
+    else { parts.push(o.to&&o.to!==c.p ? '→ '+o.to : 'reste en place');
+      if(o.obj) parts.push(`si contact : ${o.stance}`);
+      if(o.ward) parts.push('ward au '+o.ward);
+      if(o.unward) parts.push('unward au '+o.unward); }
+    li.textContent=`${c.n} : ${parts.join(' · ')}`; ul.appendChild(li);});
+  panel();
+}
+function panel(){
+  const p=document.getElementById('panel');
+  if(sel===null){p.innerHTML='<h3>Actions</h3><div class="note">Clique un de tes pions sur la carte. Les positions atteignables ce round s\'allument.</div>';return;}
+  const c=ally[sel], o=orders[sel]||{};
+  const where=(key)=>`<div class="seg" style="margin:2px 0 6px 18px"><button data-k="${key}" data-v="départ" class="${o[key]==='départ'?'on':''}">Départ</button><button data-k="${key}" data-v="arrivée" class="${o[key]==='arrivée'?'on':''}">Arrivée</button></div>`;
+  p.innerHTML=`<h3>Actions</h3><div><img class="ri" src="${ICON+c.r}.png"><strong>${c.n}</strong> · ${c.p}</div>
+    <div class="note">Portée : ${movesOf(c)} mouvement${movesOf(c)>1?'s':''}. Clique une position allumée.</div>
+    <div class="opt">
+      <label><input type="checkbox" id="w" ${o.ward?'checked':''}> Poser une ward</label>
+      ${o.ward?where('ward'):''}
+      ${/jungle|utility/.test(c.r)?`<label><input type="checkbox" id="uw" ${o.unward?'checked':''}> Unward</label>${o.unward?where('unward'):''}`:''}
+      <button id="rc" class="${o.recall?'on':''}" style="margin:4px 0;width:100%">Recall</button>
+      ${o.obj?`<div class="note">Si contact sur l'objectif :</div>
+      <div class="seg"><button id="fl" class="${o.stance==='fuir'?'on':''}">Fuir</button><button id="fi" class="${o.stance==='combattre'?'on':''}">Combattre</button></div>`:''}
+      <button id="cl" style="margin-top:6px;width:100%">Annuler l'ordre</button>
+    </div>`;
+  const set=(k,v)=>{const cur=orders[sel]||{to:c.p}; delete cur.recall; orders[sel]=Object.assign(cur,{[k]:v}); draw();};
+  document.getElementById('w').onchange=e=>set('ward',e.target.checked?'départ':undefined);
+  const uw=document.getElementById('uw'); if(uw) uw.onchange=e=>set('unward',e.target.checked?'départ':undefined);
+  p.querySelectorAll('button[data-k]').forEach(b=>b.onclick=()=>set(b.dataset.k,b.dataset.v));
+  const fl=document.getElementById('fl'); if(fl){ fl.onclick=()=>set('stance','fuir'); document.getElementById('fi').onclick=()=>set('stance','combattre'); }
+  document.getElementById('rc').onclick=()=>{orders[sel]={to:c.p,recall:true}; draw();};
+  document.getElementById('cl').onclick=()=>{delete orders[sel]; draw();};
+}
+function order(k){
+  const cur=orders[sel]||{}; delete cur.recall;
+  const obj=/Fosse|Carapateur/.test(k);
+  orders[sel]=Object.assign(cur,{to:k,obj,stance:cur.stance||'fuir'}); draw();
+}
+document.getElementById('map').onclick=()=>{ sel=null; draw(); };
+draw();
+</script>
+</body>
+</html>
