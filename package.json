@@ -1,0 +1,18 @@
+{
+  "name": "league-macro-learner",
+  "private": true,
+  "type": "module",
+  "workspaces": ["packages/*"],
+  "scripts": {
+    "test": "bun test",
+    "typecheck": "tsc -b packages/data packages/engine packages/web",
+    "check-deps": "bun scripts/check-deps.ts",
+    "build": "bun run --filter @lml/web build",
+    "dev": "bun run --filter @lml/web dev",
+    "fetch-data": "bun packages/data/scripts/fetch-champions.ts"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "typescript": "^5.6.0"
+  }
+}
